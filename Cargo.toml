@@ -1,0 +1,11 @@
+[package]
+name = "dgraph-cli"
+version = "0.1.0"
+authors = ["Ondrej Slinták <ondrowan@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+clap = "2.33.0"
+dgraph = { git = "https://github.com/Swoorup/dgraph-rs.git" }
+grpcio = "0.4.4"
+failure = "0.1.5"
