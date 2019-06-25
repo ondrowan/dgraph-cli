@@ -21,6 +21,8 @@ fn main() {
 
     let dgraph_client = dgraph_client::make(dgraph_url, dgraph_certs);
 
+    println!("Using Dgraph at URL: {}\n", dgraph_url);
+
     if let Some(schema_matches) = matches.subcommand_matches("schema") {
         schema::handler(schema_matches, &dgraph_client);
     }
