@@ -1,6 +1,7 @@
 mod app;
 mod dgraph_client;
 mod error;
+mod query;
 mod schema;
 
 fn main() {
@@ -35,5 +36,9 @@ fn main() {
         if let Err(failure_err) = result {
             error::parse(failure_err);
         }
+    }
+
+    if let Some(query_matches) = matches.subcommand_matches("query") {
+        query::handler(query_matches, &dgraph_client);
     }
 }

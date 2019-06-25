@@ -58,3 +58,23 @@ name                               string
 ```bash
 $ dgraph-cli alter "name: int ."
 ```
+
+### Query
+
+```bash
+$ dgraph-cli query "{ q(func: uid(0x1)) { uid } }"
+
+{
+  "q": [
+    {
+      "uid": "0x1"
+    }
+  ]
+}
+
+Latency:
+
+Processing: 0.2359ms
+Parsing: 0.0383ms
+Encoding: 3.226ms
+```

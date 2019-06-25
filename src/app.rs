@@ -61,4 +61,9 @@ pub fn make<'a, 'b>() -> App<'a, 'b> {
                 .about("Alters predicate in schema.")
                 .arg(Arg::with_name("alter_value").index(1).required(true)),
         )
+        .subcommand(
+            SubCommand::with_name("query")
+                .about("Queries database.")
+                .arg(Arg::with_name("query_value").index(1).required(true)),
+        )
 }
