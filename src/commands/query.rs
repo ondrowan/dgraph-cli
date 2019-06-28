@@ -1,7 +1,7 @@
 use clap::ArgMatches;
 use dgraph;
 
-use super::error;
+use crate::error;
 
 pub fn handler(query_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
     let mut txn = dgraph_client.new_readonly_txn();

@@ -4,7 +4,7 @@ use std::iter::FromIterator;
 use clap::ArgMatches;
 use dgraph;
 
-use super::error;
+use crate::error;
 
 pub fn handler(schema_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
     let wanted_fields: HashSet<&str> = if schema_matches.is_present("fields") {

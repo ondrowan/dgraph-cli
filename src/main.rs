@@ -1,9 +1,7 @@
 mod app;
-mod config;
+mod commands;
 mod dgraph_client;
 mod error;
-mod query;
-mod schema;
 
 fn main() {
     let cli_app = app::make();
@@ -12,7 +10,7 @@ fn main() {
     if let Some(config_matches) = matches.subcommand_matches("config") {
         let output_path = config_matches.value_of("output_path").unwrap();
 
-        config::handler(output_path);
+        commands::config::handler(output_path);
     } else {
         let dgraph_url = matches.value_of("url").unwrap();
         let dgraph_certs = if matches.is_present("root_ca") {
@@ -32,7 +30,7 @@ fn main() {
         println!("Using Dgraph at URL: {}\n", dgraph_url);
 
         if let Some(schema_matches) = matches.subcommand_matches("schema") {
-            schema::handler(schema_matches, &dgraph_client);
+            commands::schema::handler(schema_matches, &dgraph_client);
         }
 
         if let Some(alter_matches) = matches.subcommand_matches("alter") {
@@ -50,7 +48,7 @@ fn main() {
 
 
         if let Some(query_matches) = matches.subcommand_matches("query") {
-            query::handler(query_matches, &dgraph_client);
+            commands::query::handler(query_matches, &dgraph_client);
         }
     }
 }
