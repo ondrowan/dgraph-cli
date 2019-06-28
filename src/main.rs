@@ -2,6 +2,7 @@ mod app;
 mod commands;
 mod dgraph_client;
 mod error;
+mod file;
 
 fn main() {
     let cli_app = app::make();
@@ -15,11 +16,9 @@ fn main() {
         let dgraph_url = matches.value_of("url").unwrap();
         let dgraph_certs = if matches.is_present("root_ca") {
             Some(dgraph_client::Certificates {
-                root_ca: dgraph_client::open_cert_file(matches.value_of("root_ca").unwrap()),
-                cert: dgraph_client::open_cert_file(matches.value_of("cert").unwrap()),
-                private_key: dgraph_client::open_cert_file(
-                    matches.value_of("private_key").unwrap(),
-                ),
+                root_ca: file::open(matches.value_of("root_ca").unwrap()),
+                cert: file::open(matches.value_of("cert").unwrap()),
+                private_key: file::open(matches.value_of("private_key").unwrap()),
             })
         } else {
             None
@@ -45,7 +44,6 @@ fn main() {
                 error::parse(failure_err);
             }
         }
-
 
         if let Some(query_matches) = matches.subcommand_matches("query") {
             commands::query::handler(query_matches, &dgraph_client);
