@@ -66,4 +66,15 @@ pub fn make<'a, 'b>() -> App<'a, 'b> {
                 .about("Queries database.")
                 .arg(Arg::with_name("query_value").index(1).required(true)),
         )
+        .subcommand(
+            SubCommand::with_name("config")
+                .about("Creates configuration file with Dgraph URL and paths to certificates.")
+                .arg(
+                    Arg::with_name("output_path")
+                        .help("Path to output the config.")
+                        .short("o")
+                        .takes_value(true)
+                        .default_value("./dgraph-cli-config.toml"),
+                ),
+        )
 }
