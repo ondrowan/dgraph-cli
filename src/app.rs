@@ -1,5 +1,7 @@
 use clap::{App, AppSettings, Arg, SubCommand};
 
+use crate::file::file_exists_validator;
+
 pub fn make<'a, 'b>() -> App<'a, 'b> {
     App::new("Dgraph CLI")
         .version("0.1.0")
@@ -19,21 +21,24 @@ pub fn make<'a, 'b>() -> App<'a, 'b> {
                 .help("Path to Root CA certificate.")
                 .long("root_ca")
                 .takes_value(true)
-                .requires_all(&["cert", "private_key"]),
+                .requires_all(&["cert", "private_key"])
+                .validator(|path| file_exists_validator(path)),
         )
         .arg(
             Arg::with_name("cert")
                 .help("Path to certificate.")
                 .long("cert")
                 .takes_value(true)
-                .requires_all(&["root_ca", "private_key"]),
+                .requires_all(&["root_ca", "private_key"])
+                .validator(|path| file_exists_validator(path)),
         )
         .arg(
             Arg::with_name("private_key")
                 .help("Path to private key.")
                 .long("private_key")
                 .takes_value(true)
-                .requires_all(&["root_ca", "cert"]),
+                .requires_all(&["root_ca", "cert"])
+                .validator(|path| file_exists_validator(path)),
         )
         .subcommand(
             SubCommand::with_name("schema")
