@@ -8,7 +8,10 @@ use crate::error;
 
 pub fn handler(schema_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
     let wanted_fields: HashSet<&str> = if schema_matches.is_present("fields") {
-        schema_matches.values_of("fields").expect("Schema should contain fields value.").collect()
+        schema_matches
+            .values_of("fields")
+            .expect("Schema should contain fields value.")
+            .collect()
     } else {
         [
             "predicate",

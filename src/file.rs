@@ -1,7 +1,7 @@
-use std::path::Path;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
+use std::path::Path;
 
 /// Opens file and reads its contents. Its path is expected to be already
 /// validated.

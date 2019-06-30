@@ -5,7 +5,12 @@ use crate::error;
 
 pub fn handler(query_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
     let mut txn = dgraph_client.new_readonly_txn();
-    let result = txn.query(query_matches.value_of("query_value").expect("Query should contain query_value.").to_string());
+    let result = txn.query(
+        query_matches
+            .value_of("query_value")
+            .expect("Query should contain query_value.")
+            .to_string(),
+    );
 
     match result {
         Ok(response) => {
