@@ -43,8 +43,9 @@ pub fn handler(output_path: &str) {
 
     let config_string = toml::to_string(&config).expect("Convert config to TOML.");
 
-    let mut file = File::create(output_path).unwrap();
-    file.write_all(&config_string.as_bytes()).unwrap();
+    let mut file = File::create(output_path).expect("Should create config file.");
+    file.write_all(&config_string.as_bytes())
+        .expect("Should write config to file.");
 }
 
 fn prompt(text: &str, default_value: Option<&str>) -> String {
@@ -58,7 +59,7 @@ fn prompt(text: &str, default_value: Option<&str>) -> String {
         print!("{}: ", text);
     }
 
-    stdout().flush().unwrap();
+    stdout().flush().expect("Should flush stdout.");
 
     let mut value = String::new();
 

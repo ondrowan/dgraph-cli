@@ -8,7 +8,7 @@ pub struct Certificates {
 
 pub fn make(url: &str, certs: Option<Certificates>) -> dgraph::Dgraph {
     if certs.is_some() {
-        let certs = certs.unwrap();
+        let certs = certs.expect("Should contain certs structure.");
 
         make_dgraph!(new_secure_dgraph_client(
             url,

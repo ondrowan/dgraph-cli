@@ -9,16 +9,32 @@ fn main() {
     let matches = cli_app.get_matches();
 
     if let Some(config_matches) = matches.subcommand_matches("config") {
-        let output_path = config_matches.value_of("output_path").unwrap();
+        let output_path = config_matches
+            .value_of("output_path")
+            .expect("Config should contain output_path.");
 
         commands::config::handler(output_path);
     } else {
-        let dgraph_url = matches.value_of("url").unwrap();
+        let dgraph_url = matches
+            .value_of("url")
+            .expect("url value should be present.");
         let dgraph_certs = if matches.is_present("root_ca") {
             Some(dgraph_client::Certificates {
-                root_ca: file::open(matches.value_of("root_ca").unwrap()),
-                cert: file::open(matches.value_of("cert").unwrap()),
-                private_key: file::open(matches.value_of("private_key").unwrap()),
+                root_ca: file::open(
+                    matches
+                        .value_of("root_ca")
+                        .expect("root_ca value should be present."),
+                ),
+                cert: file::open(
+                    matches
+                        .value_of("cert")
+                        .expect("cert value should be present."),
+                ),
+                private_key: file::open(
+                    matches
+                        .value_of("private_key")
+                        .expect("private_key value should be present."),
+                ),
             })
         } else {
             None
@@ -34,7 +50,10 @@ fn main() {
 
         if let Some(alter_matches) = matches.subcommand_matches("alter") {
             let op = ::dgraph::Operation {
-                schema: alter_matches.value_of("alter_value").unwrap().to_string(),
+                schema: alter_matches
+                    .value_of("alter_value")
+                    .expect("Alter should contain alter_value.")
+                    .to_string(),
                 ..Default::default()
             };
 
