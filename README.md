@@ -6,11 +6,13 @@ future releases.
 
 ## Installation
 
-So far, it is possible to install this tool only via `cargo`:
+For now, the only option is to compile it by hand:
 
 ```bash
-$ cargo install dgraph-cli
+$ cargo build --release
 ```
+
+More options will be available once we hit 0.1.0.
 
 ## Usage
 
