@@ -40,7 +40,7 @@ pub fn handler(schema_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
         Ok(response) => {
             print_table(wanted_fields, response.get_schema());
         }
-        Err(failure_err) => error::parse(failure_err),
+        Err(err) => error::parse(err),
     }
 }
 

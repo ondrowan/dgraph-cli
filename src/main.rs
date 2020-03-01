@@ -59,8 +59,8 @@ fn main() {
 
             let result = dgraph_client.alter(&op);
 
-            if let Err(failure_err) = result {
-                error::parse(failure_err);
+            if let Err(err) = result {
+                error::parse(err);
             }
         }
 

@@ -29,7 +29,7 @@ pub fn handler(query_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
                 );
             }
         }
-        Err(failure_err) => error::parse(failure_err),
+        Err(err) => error::parse(err),
     }
 }
 
