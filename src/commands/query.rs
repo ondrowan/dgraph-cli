@@ -3,34 +3,34 @@ use dgraph;
 
 use crate::error;
 
-pub fn handler(query_matches: &ArgMatches, dgraph_client: &dgraph::Dgraph) {
+pub fn handler(
+    query_matches: &ArgMatches,
+    dgraph_client: &dgraph::Dgraph,
+) -> Result<(), error::Error> {
     let mut txn = dgraph_client.new_readonly_txn();
-    let result = txn.query(
+    let response = txn.query(
         query_matches
             .value_of("query_value")
             .expect("Query should contain query_value.")
             .to_string(),
-    );
+    )?;
 
-    match result {
-        Ok(response) => {
-            if let Ok(json) = serde_json::from_slice::<serde_json::Value>(&response.json) {
-                if let Ok(pretty_json) = serde_json::to_string_pretty(&json) {
-                    println!("{}", pretty_json);
-                }
-
-                let latency = response.get_latency();
-
-                println!(
-                    "\nLatency:\n\nProcessing: {}\nParsing: {}\nEncoding: {}",
-                    convert_and_format_ns(latency.processing_ns),
-                    convert_and_format_ns(latency.parsing_ns),
-                    convert_and_format_ns(latency.encoding_ns)
-                );
-            }
+    if let Ok(json) = serde_json::from_slice::<serde_json::Value>(&response.json) {
+        if let Ok(pretty_json) = serde_json::to_string_pretty(&json) {
+            println!("{}", pretty_json);
         }
-        Err(err) => error::parse(err),
+
+        let latency = response.get_latency();
+
+        println!(
+            "\nLatency:\n\nProcessing: {}\nParsing: {}\nEncoding: {}",
+            convert_and_format_ns(latency.processing_ns),
+            convert_and_format_ns(latency.parsing_ns),
+            convert_and_format_ns(latency.encoding_ns)
+        );
     }
+
+    Ok(())
 }
 
 fn convert_and_format_ns(time: u64) -> std::string::String {

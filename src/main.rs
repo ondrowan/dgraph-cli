@@ -45,7 +45,9 @@ fn main() {
         println!("Using Dgraph at URL: {}\n", dgraph_url);
 
         if let Some(schema_matches) = matches.subcommand_matches("schema") {
-            commands::schema::handler(schema_matches, &dgraph_client);
+            if let Err(err) = commands::schema::handler(schema_matches, &dgraph_client) {
+                eprintln!("{}", err);
+            }
         }
 
         if let Some(alter_matches) = matches.subcommand_matches("alter") {
@@ -60,12 +62,14 @@ fn main() {
             let result = dgraph_client.alter(&op);
 
             if let Err(err) = result {
-                error::parse(err);
+                eprintln!("{}", error::Error::DgraphError(err));
             }
         }
 
         if let Some(query_matches) = matches.subcommand_matches("query") {
-            commands::query::handler(query_matches, &dgraph_client);
+            if let Err(err) = commands::query::handler(query_matches, &dgraph_client) {
+                eprintln!("{}", err);
+            }
         }
     }
 }
